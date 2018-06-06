@@ -5,9 +5,8 @@ import {
 	Text,
 	Image,
 	View, Button, TouchableOpacity,
-	ActivityIndicator
+	ActivityIndicator, WebView
 } from 'react-native';
-import HeaderComponent from '../components/HeaderComponent';
 export default class Sport extends Component {
 	static navigationOptions = ({ navigation }) => {
 		const { params = {} } = navigation.state;
@@ -25,12 +24,11 @@ export default class Sport extends Component {
 
 	render() {
 
-
 		return (
 			<View style={styles.container}>
 				<TouchableOpacity
 					style={styles.button}
-					onPress={() => this.props.navigation.navigate('Globe')}
+					onPress={() => this.props.navigation.navigate('WebView')}
 				>
 					<Text style={styles.textBtn} >
 						to Globe Screen

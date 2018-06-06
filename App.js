@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+import NewsContainer from './containers/NewsContainer'
 import DrawerComponent from './components/drawerComponent'
 import TabComponent from './tabComponents/tabComponent'
 

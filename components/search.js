@@ -81,7 +81,6 @@ export default class Search extends Component {
                 />
 
                 <FlatList
-                    style={{ marginTop: 100 }}
                     keyExtractor={(item, index) => item.title}
                     data={this.state.results}
                     renderItem={

@@ -8,22 +8,34 @@ import {
 	ActivityIndicator,
 	ScrollView,
 	FlatList,
-	Linking
+	Linking,
+	WebView
 } from 'react-native';
 import HeaderComponent from '../components/HeaderComponent';
 import dataNews from './../components/dataNews'
-
+import WebViewScreen from './WebViewScreen'
 var url = 'https://newsapi.org/v2/top-headlines?' +
 	'country=us&' +
 	'apiKey=55abe1c961c34887a1fd682f9dae3a47';
 
+class DetailsScreen extends Component {
+	render(){
+		return (
+			<View style = {{flex: 1}} >
+				<WebView
+				source = {{uri: this.props.item.url}}
+				style = {{flex: 1}}
+				/>
+			</View>
+		)
+	}
+}
+	
 class FlatListItem extends Component {
 
-	_openURL = () => {
-		Linking.openURL(this.props.item.url)
-	}
 
 	render() {
+		const {navigation} = this.props;
 		return (
 			this.props.index === 0 ? <View style={{ marginVertical: 5, marginHorizontal: 10 }} >
 				<View>
@@ -36,7 +48,8 @@ class FlatListItem extends Component {
 				<View style={{ flex: 1 }}>
 					<View>
 						<TouchableOpacity
-							onPress={this._openURL}
+						onPress={() => navigation.navigate('WebView', {url: this.props.item.url})}
+							
 						>
 							<Text style={styles.titleNews}>
 								{this.props.item.title}
@@ -62,9 +75,14 @@ class FlatListItem extends Component {
 						</View>
 						<View style={{ flex: 1, flexDirection: 'column' }}>
 							<View>
+							<TouchableOpacity
+							onPress={() => navigation.navigate('WebView', {url: this.props.item.url})}
+								
+							>
 								<Text style={styles.titleNews}>
 									{this.props.item.title}
 								</Text>
+							</TouchableOpacity>
 							</View>
 							<View style={{ marginVertical: 5, marginHorizontal: 10 }}  >
 								<Text>
@@ -103,36 +121,13 @@ export default class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			newsData: [],
 			isLoading: false,
 			refreshing: false
 		}
 	}
 
-	componentDidMount() {
-		this._getData();
-	}
-
-	_getData = () => {
-		this.setState({
-			refreshing: true,
-			isLoading: true
-		})
-		fetch(url)
-			.then((res) => res.json())
-			.then((res) => {
-
-				this.setState({
-					isLoading: false,
-					newsData: res.articles,
-					refreshing: false
-
-				})
-			})
-	}
-
 	render() {
-		if (this.state.isLoading) return <ActivityIndicator />
+		 if (this.state.isLoading) return <ActivityIndicator />
 		return (
 			<View >
 
@@ -140,11 +135,11 @@ export default class Home extends Component {
 					keyExtractor={(item, index) => item.title}
 					refreshing={this.state.refreshing}
 					onRefresh={this._getData}
-					data={this.state.newsData}
+					data={this.props.news}
 					renderItem={
 						({ item, index }) => {
 							return (
-								<FlatListItem item={item} index={index}></FlatListItem>
+								<FlatListItem navigation = {this.props.navigation} item={item} index={index}></FlatListItem>
 							);
 						}
 					}
@@ -152,7 +147,12 @@ export default class Home extends Component {
 				</FlatList>
 
 
-				<TouchableOpacity style={styles.Fabs}>
+				<TouchableOpacity style={styles.Fabs}
+					onPress = {()=>{
+							this.props.onFetchNews('asc');
+						}
+					}
+				>
 					<Image
 						source={require('../icon/phone_26.png')}
 						style={{ width: 26, height: 26,/* tintColor: '#0067a7' */ }}
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: 60,
 		height: 30,
-		borderRadius: 5
+		borderRadius: 5,
 	},
 	Fabs: {
 		height: 56,

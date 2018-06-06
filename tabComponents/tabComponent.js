@@ -13,15 +13,15 @@ import {
 import AddNews from './../components/addNews'
 import { TabNavigator, StackNavigator, DrawerNavigator, SwitchNavigator } from 'react-navigation';
 import Sport from './sport';
+import WebViewScreen from './WebViewScreen';
 import Home from './home';
+import NewsContainer from './../containers/NewsContainer'
 import Globe from './globe';
 import HeaderComponent from '../components/HeaderComponent';
 
-
-
 let routeConfigs = {
     myHome: {
-        screen: Home
+        screen: NewsContainer
     },
     'Sport': {
         screen: Sport
@@ -69,18 +69,21 @@ export default TabComponent = StackNavigator({
     Profile: {
 
         screen: myHome,
-        navigationOptions:({navigation})=>(
+        navigationOptions: ({ navigation }) => (
             {
-                header :(props) => <HeaderComponent {...props}/>
-                
+                header: (props) => <HeaderComponent {...props} />
+
             }
         )
-        
+
     },
     'addNews': {
         screen: AddNews
+    },
+    'WebView': {
+        screen: WebViewScreen
     }
-  });
+});
 
 // export default TabComponent = SwitchNavigator(
 //     {
