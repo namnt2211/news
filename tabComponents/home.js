@@ -131,6 +131,20 @@ export default class Home extends Component {
 		return (
 			<View >
 
+				<View style = {{height: 40, alignItems: "center" }} > 
+				<TouchableOpacity style = {styles.button}
+					onPress = {()=>{
+							this.props.onFetchNews('asc');
+						}
+					}
+				>
+				<Text>
+					Get API
+					</Text>	
+				</TouchableOpacity>
+
+				</View>
+
 				<FlatList
 					keyExtractor={(item, index) => item.title}
 					refreshing={this.state.refreshing}
@@ -147,17 +161,7 @@ export default class Home extends Component {
 				</FlatList>
 
 
-				<TouchableOpacity style={styles.Fabs}
-					onPress = {()=>{
-							this.props.onFetchNews('asc');
-						}
-					}
-				>
-					<Image
-						source={require('../icon/phone_26.png')}
-						style={{ width: 26, height: 26,/* tintColor: '#0067a7' */ }}
-					/>
-				</TouchableOpacity>
+				
 			</View>
 		);
 	}
@@ -182,11 +186,11 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 	button: {
-		backgroundColor: 'red',
+		backgroundColor: 'darkviolet',
 		marginTop: 5,
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: 60,
+		width: 100,
 		height: 30,
 		borderRadius: 5,
 	},
